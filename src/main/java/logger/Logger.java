@@ -7,6 +7,11 @@ public class Logger {
         logThread.start();
     }
 
+    public static void log(String message, String exception) {
+        LogThread logThread = new LogThread(message + " (" + exception + ")");
+        logThread.start();
+    }
+
     static class LogThread extends Thread {
         private final String message;
 

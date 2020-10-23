@@ -1,21 +1,23 @@
 package logger;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
 public class Discord {
     private static URI WEBHOOK_URI;
 
     static {
         try {
-            WEBHOOK_URI = new URI("https://discordapp.com/api/webhooks/618928460043386903/PVwZh9kJP2X0q0kDelTt2K8xEmYN2fObo83PJsl0GeGdUSlW7296GxJBEgjY1W-_51vi");
+            WEBHOOK_URI =
+                    new URI(
+                            "https://discordapp.com/api/webhooks/618928460043386903/PVwZh9kJP2X0q0kDelTt2K8xEmYN2fObo83PJsl0GeGdUSlW7296GxJBEgjY1W-_51vi");
         } catch (URISyntaxException ignored) {
         }
     }
@@ -35,6 +37,5 @@ public class Discord {
         } catch (IOException e) {
             System.out.println("Unable to POST to Discord.");
         }
-
     }
 }

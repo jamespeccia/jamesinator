@@ -1,0 +1,34 @@
+{
+  "lastUpdated": {
+    "XRPUSD": {
+      "phemex": 1603421949849
+    },
+    "phemex": 1603421952865,
+    "BTCUSD": {
+      "phemex": 1603421952860,
+      "bybit": 1603421948135
+    },
+    "bybit": 1603421953219,
+    "ETHUSD": {
+      "phemex": 1603421952860,
+      "bybit": 1603421951127
+    }
+  },
+  "prices": {
+    "XRPUSD": {
+      "phemex": 0.2583,
+      "bybit": 0.2432
+    },
+    "BTCUSD": {
+      "phemex": 13003,
+      "bybit": 13002
+    },
+    "ETHUSD": {
+      "phemex": 415,
+      "bybit": 415.35
+    }
+  }
+}
+
+
+

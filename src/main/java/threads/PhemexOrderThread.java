@@ -1,8 +1,8 @@
 package threads;
 
-import api.PhemexClient;
 import org.json.JSONObject;
-import websocket.Constants;
+
+import api.PhemexClient;
 
 public class PhemexOrderThread extends Thread {
 
@@ -19,10 +19,10 @@ public class PhemexOrderThread extends Thread {
     @Override
     public void run() {
         if (buy) {
-            double price = currentState.getJSONObject("prices").getDouble(Constants.PHEMEX_BTC_PRICE) + 1;
+            double price = currentState.getJSONObject("prices").getJSONObject("BTCUSD").getDouble("phemex") + 1;
             PhemexClient.placeLimitOrder("BTCUSD", "Buy", price, quantity, -1, -1);
         } else {
-            double price = currentState.getJSONObject("prices").getDouble(Constants.PHEMEX_BTC_PRICE) - 1;
+            double price = currentState.getJSONObject("prices").getJSONObject("BTCUSD").getDouble("phemex") - 1;
             PhemexClient.placeLimitOrder("BTCUSD", "Sell", price, quantity, -1, -1);
         }
 

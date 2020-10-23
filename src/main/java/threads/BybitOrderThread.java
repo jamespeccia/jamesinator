@@ -1,8 +1,8 @@
 package threads;
 
-import api.BybitClient;
 import org.json.JSONObject;
-import websocket.Constants;
+
+import api.BybitClient;
 
 public class BybitOrderThread extends Thread {
 
@@ -19,13 +19,11 @@ public class BybitOrderThread extends Thread {
     @Override
     public void run() {
         if (buy) {
-            double price = currentState.getJSONObject("prices").getDouble(Constants.BYBIT_BTC_PRICE) + 1;
+            double price = currentState.getJSONObject("prices").getJSONObject("BTCUSD").getDouble("bybit") + 1;
             BybitClient.placeLimitOrder("BTCUSD", "Buy", price, quantity, -1, -1);
         } else {
-            double price = currentState.getJSONObject("prices").getDouble(Constants.BYBIT_BTC_PRICE) - 1;
+            double price = currentState.getJSONObject("prices").getJSONObject("BTCUSD").getDouble("bybit") - 1;
             BybitClient.placeLimitOrder("BTCUSD", "Sell", price, quantity, -1, -1);
         }
-
-        // Monitor order
     }
 }

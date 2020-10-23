@@ -1,26 +1,28 @@
-import api.BybitClient;
+import api.PhemexClient;
+import logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import threads.BybitOrderThread;
 import threads.PhemexOrderThread;
-import websocket.Constants;
-import websocket.WebSockets;
+import webserver.WebServer;
+import websocket.WSMain;
+
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
 
+        final JSONObject CURRENT_STATE = CurrentState.initialize();
+        new WSMain(CURRENT_STATE);
+        try {
+            new WebServer(5000, CURRENT_STATE).start();
+        } catch (IOException e) {
+            Logger.log("Unable to start webserver.", e.toString());
+        }
+        //run(currentState);
 
-
-        long start = System.currentTimeMillis();
-        BybitClient.placeLimitOrder("BTCUSD", "Sell", 12000, 1, -1, -1);
-        long end = System.currentTimeMillis();
-        System.out.println(end-start);
-
-//        JSONObject currentState = new JSONObject();
-//        currentState.put("prices", new JSONObject());
-//        WebSockets websockets = new WebSockets(currentState);
     }
-
 
     public static void run(JSONObject currentState) {
         final double AVERAGE = -2.5;
@@ -40,32 +42,29 @@ public class Main {
                 e.printStackTrace();
             }
 
-            System.out.println(currentState);
-
             // difference = bybit - phemex
             double difference = 0.0;
             try {
-                difference = currentState.getJSONObject("prices").getDouble(Constants.DIFFERENCE_BTC_PRICE);
+                difference = currentState.getJSONObject("prices").getJSONObject("BTCUSD").getDouble("bybit")
+                - currentState.getJSONObject("prices").getJSONObject("BTCUSD").getDouble("phemex");
+                JSONObject response = PhemexClient.placeLimitOrder("BTCUSD", "Buy", currentState.getJSONObject("prices").getJSONObject("BTCUSD").getDouble("phemex"), 1, -1, -1);
+                break;
             } catch (JSONException ignored) {
             }
 
-            if (!inTrade && difference > UPPER) {
-                bybitOrderThread = new BybitOrderThread(currentState, false, 100);
-                phemexOrderThread = new PhemexOrderThread(currentState, true, 100);
-                bybitOrderThread.start();
-                phemexOrderThread.start();
-                inTrade = true;
-            } else if (!inTrade && difference < LOWER) {
-                bybitOrderThread = new BybitOrderThread(currentState, true, 100);
-                phemexOrderThread = new PhemexOrderThread(currentState, false, 100);
-                bybitOrderThread.start();
-                phemexOrderThread.start();
-                inTrade = true;
-            }
-
-
+//            if (!inTrade && difference > UPPER) {
+//                bybitOrderThread = new BybitOrderThread(currentState, false, 100);
+//                phemexOrderThread = new PhemexOrderThread(currentState, true, 100);
+//                bybitOrderThread.start();
+//                phemexOrderThread.start();
+//                inTrade = true;
+//            } else if (!inTrade && difference < LOWER) {
+//                bybitOrderThread = new BybitOrderThread(currentState, true, 100);
+//                phemexOrderThread = new PhemexOrderThread(currentState, false, 100);
+//                bybitOrderThread.start();
+//                phemexOrderThread.start();
+//                inTrade = true;
+//            }
         }
-
-
     }
 }
