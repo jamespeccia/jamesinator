@@ -1,0 +1,37 @@
+{
+  "prices": {
+    "BTCUSD": {},
+    "ETHUSD": {},
+    "XRPUSD": {}
+  },
+
+  "last_updated": {
+    "BTCUSD": {},
+    "ETHUSD": {},
+    "XRPUSD": {}
+  },
+
+  "in_trade": {
+    "BTCUSD": {
+      "bybit": false,
+      "phemex": false
+    },
+    "ETHUSD": {
+      "bybit": false,
+      "phemex": false
+    },
+    "XRPUSD": {
+      "bybit": false,
+      "phemex": false
+    }
+  },
+
+  "configuration": {
+    "order_quantity": 10,
+    "difference_mean": -4.0,
+    "difference_std": 5.0
+  }
+}
+
+
+
