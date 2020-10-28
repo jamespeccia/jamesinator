@@ -1,0 +1,37 @@
+{
+  "prices": {
+    "BTCUSD": {},
+    "ETHUSD": {},
+    "XRPUSD": {}
+  },
+  "last_updated": {
+    "BTCUSD": {},
+    "ETHUSD": {},
+    "XRPUSD": {}
+  },
+  "in_trade": {
+    "BTCUSD": {
+      "BYBIT": "false",
+      "PHEMEX": "false"
+    },
+    "ETHUSD": {
+      "BYBIT": "false",
+      "PHEMEX": "false"
+    },
+    "XRPUSD": {
+      "BYBIT": "false",
+      "PHEMEX": "false"
+    }
+  },
+  "configuration": {
+    "order_quantity": 100,
+    "difference_mean": 0,
+    "difference_std": 2
+  },
+  "status": {
+    "first_trade_executed": false
+  }
+}
+
+
+

@@ -2,7 +2,7 @@ package websocket;
 
 import logger.Logger;
 import org.apache.commons.codec.binary.Hex;
-import org.json.JSONObject;
+import state.State;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,13 +19,13 @@ public abstract class WSClient implements WSInterface {
     protected final WebSocketContainer CONTAINER;
     protected final String EXCHANGE;
     protected final String ADDRESS;
-    protected final JSONObject CURRENT_STATE;
+    protected final State CURRENT_STATE;
 
     protected Session session;
     protected Timer timer;
     protected long lastMessageTime;
 
-    protected WSClient(final String EXCHANGE, final String ADDRESS, final JSONObject CURRENT_STATE) {
+    protected WSClient(final String EXCHANGE, final String ADDRESS, final State CURRENT_STATE) {
         this.CONTAINER = ContainerProvider.getWebSocketContainer();
         this.EXCHANGE = EXCHANGE;
         this.ADDRESS = ADDRESS;
@@ -38,10 +38,11 @@ public abstract class WSClient implements WSInterface {
             try {
                 session = this.CONTAINER.connectToServer(this, new URI(this.ADDRESS));
                 connected = true;
-                //this.startHeartbeatService(3000);
+                this.startHeartbeatService(3000);
                 this.authenticate();
+                Thread.sleep(1000);
                 this.subscribe();
-            } catch (DeploymentException | URISyntaxException | IOException e) {
+            } catch (DeploymentException | URISyntaxException | IOException | InterruptedException e) {
                 Logger.log("Unable to connect to " + EXCHANGE + " WebSocket. Attempting to reconnect in 5000ms.", e.toString());
                 connected = false;
                 try {
@@ -72,7 +73,7 @@ public abstract class WSClient implements WSInterface {
         try {
             session.close();
         } catch (IOException e) {
-            Logger.log("Error closing " + EXCHANGE +" WebSocket.", e.toString());
+            Logger.log("Error closing " + EXCHANGE + " WebSocket.", e.toString());
         }
     }
 
